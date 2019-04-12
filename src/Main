@@ -1,3 +1,4 @@
+
 import java.awt.Container;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,6 +9,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicComboBoxUI;
+import com.toedter.calendar.JDateChooser;
 
 public class Main extends JFrame {
 	String svar; // Variable to record the source data
@@ -27,7 +29,6 @@ public class Main extends JFrame {
 	ButtonHandler listener = new ButtonHandler();
 	ButtonHandler1 listener4 = new ButtonHandler1();
 	ButtonHandler2 listener5 = new ButtonHandler2();
-	String date;
 	JFrame frame = new JFrame("WELCOME PAGE");
 	JComboBox patternList;
 	Combo listener1 = new Combo(); 
@@ -39,11 +40,12 @@ public class Main extends JFrame {
 	JPanel j4 = new JPanel();
 	JComboBox dateList;
 	Combo2 listener3 = new Combo2();
+	public final JDateChooser dateChooser = new JDateChooser();
 
 	Main() {
 		int X, Y;
 		Point p;
-
+		String date;
 		Toolkit toolKit = Toolkit.getDefaultToolkit();
 		java.awt.Dimension screenSize = toolKit.getScreenSize();
 		toolKit.getScreenSize();
@@ -80,12 +82,12 @@ public class Main extends JFrame {
 		// For the second JCOMBO BOX,destination
 		String[] patternExamples1 = { "--Select--", "Toronto", "Brampton", "Missisaauga", "Ottawa", "Montreal" };
 
-		String[] dateExamples = new String[62];
+		String[] dateExamples = new String[61];
 		int k;
 		int i;
 		dateExamples[0] = "---Select---" ;
 		
-		for (i = 1; i < 30; i++) {
+		for (i = 11; i < 30; i++) {
 			k = i + 1;
 			dateExamples[i] = k + " APR" + " 2019";
 		}
@@ -95,6 +97,7 @@ public class Main extends JFrame {
 			++i;
 		}
 		// for date
+		dateChooser.setMinSelectableDate(new Date());
 		date = dateExamples[0];
 		dateList = new JComboBox(dateExamples);
 		dateList.setEditable(false);
@@ -109,7 +112,6 @@ public class Main extends JFrame {
 		l2.setForeground(new Color(0, 128, 0));
 		j2.add(l2);
 		j2.add(list2);
-		j2.add(dateList);
 
 		j1.add(confirm);
 		j1.add(cancel);
@@ -118,6 +120,8 @@ public class Main extends JFrame {
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.getContentPane().add(windowContent, BorderLayout.NORTH);
 		frame.getContentPane().add(j2, BorderLayout.CENTER);
+		
+		j2.add(dateChooser);
 		frame.getContentPane().add(j1, BorderLayout.SOUTH);
 		frame.setSize(X / 2, Y / 2);
 		frame.setVisible(true);// to display the frame
@@ -125,6 +129,8 @@ public class Main extends JFrame {
 		frame.setIconImage(new ImageIcon("C:\\Users\\user\\Desktop\\java\\TPortal\\bus.jpg").getImage());
 	}
 	private class ButtonHandler implements ActionListener {
+		private String date;
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -165,7 +171,7 @@ public class Main extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JComboBox cb = (JComboBox) e.getSource();
-			date = (String) cb.getSelectedItem();
+			String date = (String) cb.getSelectedItem();
 		}
 	}
 	private class ButtonHandler1 implements ActionListener {
